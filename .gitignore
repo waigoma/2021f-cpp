@@ -18,3 +18,4 @@ utf8_test.cc
 *.zip
 *.exe
 *.o
+*.txt
