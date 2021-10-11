@@ -13,6 +13,8 @@ cmake-build-debug/
 .idea/
 member-sample/
 
+utf8_test.cc
+
 *.zip
 *.exe
 *.o
