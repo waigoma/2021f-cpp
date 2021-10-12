@@ -19,3 +19,4 @@ utf8_test.cc
 *.exe
 *.o
 *.txt
+*.bak
