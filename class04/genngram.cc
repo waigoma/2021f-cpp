@@ -1,5 +1,4 @@
 #include "utf8.h"
-#include "mysort.cc"
 #include <iostream>
 #include <sstream>
 #include <cstdlib>
@@ -15,7 +14,8 @@ int main(int argc, char* argv[]) {
 
     string source;
 
-    cout << "文字列は？: "; cin >> source;
+//    cout << "文字列は？: ";
+    cin >> source;
 
     // 文字数
     int utf8count = 0;
@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
     }
 
     // sort
-    sortUtf8(u2, utf8count);
+//    sortUtf8(u2, utf8count);
 
     // 出力
     int count = 0;
@@ -57,7 +57,7 @@ int main(int argc, char* argv[]) {
             tmpss << u3;
             // 2つ選出してたら終了
             if (++n == n_gram) {
-                outss << tmpss.str() << endl;
+                outss << tmpss.str() << "\n";
                 break;
             }
         }

@@ -14,7 +14,7 @@ ZIPCMD	=	zip
 
 
 TARGET	=	ex04 utf8_test2 \
-		genngram mycount mynsort
+		genngram mysort mycount mynsort
 
 WEXECS	=	ex04.exe utf8_test2.exe \
 		genngram.exe mysort.exe mycount.exe mynsort.exe
@@ -40,9 +40,9 @@ clean:
 ex04:		ex04.o
 utf8_test2:	utf8_test2.o utf8.o
 genngram:	genngram.o utf8.o
-mysort:		utf8.o
-mycount:	mycount.o utf8.o
-mynsort:	mynsort.o utf8.o
+mysort:		mysort.cc utf8.o
+mycount:	mycount.o
+mynsort:	mynsort.o
 
 ##
 ##      extra rules for cygwin
