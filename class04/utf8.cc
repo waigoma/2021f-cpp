@@ -1,4 +1,5 @@
 #include "utf8.h"
+#include <sstream>
 
 utf8::utf8(unsigned char x0, unsigned char x1, unsigned char x2, unsigned char x3, unsigned char x4, unsigned char x5) {
     byte[0] = x0; byte[1] = x1; byte[2] = x2; byte[3] = x3; byte[4] = x4; byte[5] = x5;
@@ -48,49 +49,61 @@ std::ostream &operator<<(std::ostream& ios, const utf8* up) {
 }
 
 bool utf8::operator<(const utf8& a) const {
-    int thisInt = 0;
-    int aInt = 0;
-
-    for (const unsigned char c : this->byte) thisInt += (int) c;
-    for (const unsigned char c : a.byte) aInt += (int) c;
-
+    std::stringstream thisStream;
+    std::stringstream aStream;
+    int thisInt;
+    int aInt;
+    for (int i = 0; i < this->countBytes(); i++) thisStream << std::hex << (int) this->byte[i];
+    for (int i = 0; i < a.countBytes(); i++) aStream << std::hex << (int) a.byte[i];
+    thisStream >> thisInt;
+    aStream >> aInt;
     return thisInt < aInt;
 }
 
 bool utf8::operator<=(const utf8& a) const {
-    int thisInt = 0;
-    int aInt = 0;
-
-    for (const unsigned char c : this->byte) thisInt += (int) c;
-    for (const unsigned char c : a.byte) aInt += (int) c;
-
+    std::stringstream thisStream;
+    std::stringstream aStream;
+    int thisInt;
+    int aInt;
+    for (int i = 0; i < this->countBytes(); i++) thisStream << std::hex << (int) this->byte[i];
+    for (int i = 0; i < a.countBytes(); i++) aStream << std::hex << (int) a.byte[i];
+    thisStream >> thisInt;
+    aStream >> aInt;
     return thisInt <= aInt;
 }
 
 bool utf8::operator>(const utf8& a) const {
-    int thisInt = 0;
-    int aInt = 0;
-
-    for (const unsigned char c : this->byte) thisInt += (int) c;
-    for (const unsigned char c : a.byte) aInt += (int) c;
-
+    std::stringstream thisStream;
+    std::stringstream aStream;
+    int thisInt;
+    int aInt;
+    for (int i = 0; i < this->countBytes(); i++) thisStream << std::hex << (int) this->byte[i];
+    for (int i = 0; i < a.countBytes(); i++) aStream << std::hex << (int) a.byte[i];
+    thisStream >> thisInt;
+    aStream >> aInt;
     return thisInt > aInt;
 }
 
 bool utf8::operator>=(const utf8& a) const {
-    int thisInt = 0;
-    int aInt = 0;
-
-    for (const unsigned char c : this->byte) thisInt += (int) c;
-    for (const unsigned char c : a.byte) aInt += (int) c;
-
+    std::stringstream thisStream;
+    std::stringstream aStream;
+    int thisInt;
+    int aInt;
+    for (int i = 0; i < this->countBytes(); i++) thisStream << std::hex << (int) this->byte[i];
+    for (int i = 0; i < a.countBytes(); i++) aStream << std::hex << (int) a.byte[i];
+    thisStream >> thisInt;
+    aStream >> aInt;
     return thisInt >= aInt;
 }
 
 bool utf8::operator==(const utf8& a) const {
-    for (int i = 0; i < this->countBytes(); i++) {
-        if (this->byte[i] != a.byte[i]) return false;
-    }
-
-    return true;
+    std::stringstream thisStream;
+    std::stringstream aStream;
+    int thisInt;
+    int aInt;
+    for (int i = 0; i < this->countBytes(); i++) thisStream << std::hex << (int) this->byte[i];
+    for (int i = 0; i < a.countBytes(); i++) aStream << std::hex << (int) a.byte[i];
+    thisStream >> thisInt;
+    aStream >> aInt;
+    return thisInt == aInt;
 }
