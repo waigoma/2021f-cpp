@@ -12,6 +12,7 @@ CMakeLists.txt
 cmake-build-debug/
 .idea/
 member-sample/
+test/
 
 utf8_test.cc
 
