@@ -121,11 +121,9 @@ utf8 selectChar(const vector<Probability>& probList) {
 int main() {
     // 開始文字を聞く2
     string str;
-//    cout << "開始文字: ";
-    cin >> str;
     DWORD start = GetTickCount();
 
-    utf8 startStr(str.c_str());
+    utf8 startStr;
 
     // ファイル登録
     const string filePath = "2-gram.txt";
@@ -145,8 +143,37 @@ int main() {
 
     stringstream output;
 
-    for (int i = 0; i < 10; i++) {
-        output << startStr;
+    string line = "tmp";
+    cout << "文字を入力してください。( :q で終了)" << endl;
+    while (!line.empty()) {
+        cout << "あなた: ";
+        getline(cin, line);
+
+        if (line == ":q") {
+            cout << "終了します。" << endl;
+            break;
+        }
+
+        // 文字数
+        vector<utf8> lines;
+
+        int utf8count = 0;
+        int offset = 0;
+        utf8 u1;
+        const char* sp = line.c_str();
+
+        while (true) {
+            u1 = utf8(sp + offset);
+            lines.push_back(u1);
+            offset += u1.countBytes();
+            if (u1.is_null()) break;
+            utf8count++;
+        }
+
+        int idx = getRandomNumber(utf8count);
+        startStr = lines[idx];
+
+        output << "無能: " << startStr;
         DWORD startT = GetTickCount();
         while (!(startStr == endStr)) {
 //            cout << "probList a: " << (double)(GetTickCount() - start) / 1000.0 << endl;
