@@ -97,12 +97,12 @@ bool utf8::operator>=(const utf8& a) const {
 }
 
 bool utf8::operator==(const utf8& a) const {
-    std::stringstream thisStream;
-    std::stringstream aStream;
+    std::stringstream thisStream; thisStream << std::hex;
+    std::stringstream aStream; aStream << std::hex;
     int thisInt;
     int aInt;
-    for (int i = 0; i < this->countBytes(); i++) thisStream << std::hex << (int) this->byte[i];
-    for (int i = 0; i < a.countBytes(); i++) aStream << std::hex << (int) a.byte[i];
+    for (int i = 0; i < this->countBytes(); i++) thisStream << (int) this->byte[i];
+    for (int i = 0; i < a.countBytes(); i++) aStream << (int) a.byte[i];
     thisStream >> thisInt;
     aStream >> aInt;
     return thisInt == aInt;

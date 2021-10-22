@@ -1,5 +1,4 @@
 #include <iostream>
-#include <ctime>
 #include <random>
 #include <fstream>
 #include <vector>
@@ -34,7 +33,7 @@ int getRandomNumber(int range, int addition=0) {
 }
 
 // matchStrの次の文字リストを取得し、[文字, 個数]を返す
-vector<Probability> getProbabilities(const vector<utf8>* file, const utf8* matchStr) {
+vector<Probability> getProbabilities(const vector<vector<utf8>>* file, const utf8* matchStr) {
     // matchStrの次の文字リスト
     vector<utf8> hitList;
     vector<Probability> probList; // 実際に数える用 [文字, 個数]
@@ -43,62 +42,82 @@ vector<Probability> getProbabilities(const vector<utf8>* file, const utf8* match
 
     // matchStr を見つけたかどうか
     bool hit = false;
-    bool hit2 = false;
 
 //    ifstream file(filePath);
 
-    DWORD start = GetTickCount();
-    for (utf8 u : *file) {
+//    DWORD start = GetTickCount();
+    for (vector<utf8> u : *file) {
+        if (u.empty()) break;
+//        cout << u[0] << " " << u[1] << endl;
 //        DWORD startT = GetTickCount();
-        if (hit) { // matchStr が見つかった
+//        if (hit) { // matchStr が見つかった
 //            hitList.push_back(u); // matchStr の次の文字が push される
-            hit2 = false;
-            int i = 0;
-            for (auto prob : probList) { // 実際に数える用のリストを for で回す
-                if (prob.character == u) { // 数えるリストに既に登録されているかどうか
-                    probList[i].count++;
-                    hit2 = true;
-                    break;
-                }
-                i++;
-            }
-            if (!hit2) { // 数えるリストになかったらリストに push
-                probList.push_back({u, 1});
-            }
-            count++;
-            hit = false;
-        }
-
-        if (*matchStr == u) {
-            hit = true;
-        }
-//        cout << (double)(GetTickCount() - startT) / 1000.0 << " " << u << " // ";
-    }
-//    cout << "find str end: " << (double)(GetTickCount() - start) / 1000.0 << " " << count << endl;
-
-//    for (auto hitStr : hitList) { // matchStr の次の文字リストを for で回す
-//        hit = false;
-//        int i = 0;
-//        for (auto prob : probList) { // 実際に数える用のリストを for で回す
-//            if (prob.character == hitStr) { // 数えるリストに既に登録されているかどうか
-//                probList[i].count++;
-//                hit = true;
-//                break;
+//            hit2 = false;
+//            int i = 0;
+//            for (auto prob : probList) { // 実際に数える用のリストを for で回す
+//                if (prob.character == u[0]) { // 数えるリストに既に登録されているかどうか
+//                    probList[i].count++;
+//                    hit2 = true;
+//                    break;
+//                }
+//                i++;
 //            }
-//            i++;
+//            if (!hit2) { // 数えるリストになかったらリストに push
+//                probList.push_back({u, 1});
+//            }
+//            count++;
+//            hit = false;
 //        }
-//        if (!hit) { // 数えるリストになかったらリストに push
-//            probList.push_back({hitStr, 1});
-//        }
-//    }
+
+        if (u[0] == *matchStr) {
+//            cout << u[0] << " " << u[1] << " " << (double)(GetTickCount() - startT) / 1000.0  << endl;
+//            hit = false;
+//            int i = 0;
+            hitList.push_back(u[1]);
+//            for (auto prob : probList) { // 実際に数える用のリストを for で回す
+//                if (prob.character == u[1]) { // 数えるリストに既に登録されているかどうか
+//                    probList[i].count++;
+//                    hit = true;
+//                    break;
+//                }
+//                i++;
+//            }
+//            if (!hit) { // 数えるリストになかったらリストに push
+//                probList.push_back({u[1], 1});
+//            }
+            count++;
+        }
+//        cout << (double)(GetTickCount() - startT) / 1000.0 << " " << u[0] << " // ";
+    }
+//    cout << "find: " << (double)(GetTickCount() - start) / 1000.0 << " " << endl;
+
+//    start = GetTickCount();
+    for (auto hitStr : hitList) { // matchStr の次の文字リストを for で回す
+        hit = false;
+        int i = 0;
+        for (auto prob : probList) { // 実際に数える用のリストを for で回す
+            if (prob.character == hitStr) { // 数えるリストに既に登録されているかどうか
+                probList[i].count++;
+                hit = true;
+                break;
+            }
+            i++;
+        }
+        if (!hit) { // 数えるリストになかったらリストに push
+            probList.push_back({hitStr, 1});
+        }
+    }
+//    cout << "count: " << (double)(GetTickCount() - start) / 1000.0 << " " << endl;
 
     int i = 0;
+//    start = GetTickCount();
     for (Probability prob : probList) {
         probList[i++].prob = (double) prob.count / count * 100;
     }
 
-    qsort(&probList[0], probList.size(), sizeof(Probability), compare);
 
+    qsort(&probList[0], probList.size(), sizeof(Probability), compare);
+//    cout << "qsort: " << (double)(GetTickCount() - start) / 1000.0 << endl;
     return probList;
 }
 
@@ -121,7 +140,7 @@ utf8 selectChar(const vector<Probability>& probList) {
 int main() {
     // 開始文字を聞く2
     string str;
-//    cout << "開始文字: ";
+    //  cout << "開始文字: ";
     cin >> str;
     DWORD start = GetTickCount();
 
@@ -129,7 +148,7 @@ int main() {
 
     // ファイル登録
     const string filePath = "2-gram.txt";
-    const ifstream file(filePath);
+    ifstream file(filePath);
 
     // ファイルがあるか確認
     if(!file){
@@ -137,9 +156,25 @@ int main() {
         return 1;
     }
 
-    vector<utf8> fileChars;
-    utf8 tmp;
-    while ((istream &) file >> tmp) fileChars.push_back(tmp);
+    vector<vector<utf8>> fileChars;
+    string strTmp;
+    while (getline(file, strTmp)) {
+//        cout << strTmp << endl;
+        vector<utf8> tmp;
+        utf8 u1;
+
+        int offset = 0;
+        const char* sp = strTmp.c_str();
+
+        while (true) {
+            u1 = utf8(sp + offset);
+            offset += u1.countBytes();
+            if (u1.is_null()) break;
+            tmp.push_back(u1);
+        }
+
+        fileChars.push_back(tmp);
+    }
 
     const utf8 endStr("。");
 
@@ -149,9 +184,10 @@ int main() {
         output << startStr;
         DWORD startT = GetTickCount();
         while (!(startStr == endStr)) {
+//            DWORD start2 = GetTickCount();
 //            cout << "probList a: " << (double)(GetTickCount() - start) / 1000.0 << endl;
             vector<Probability> probList = getProbabilities(&fileChars, &startStr);
-//            cout << "probList b: " << (double)(GetTickCount() - start) / 1000.0 << endl;
+//            cout << "probList b: " << (double)(GetTickCount() - start2) / 1000.0 << endl;
 
             startStr = selectChar(probList);
 //            cout << "selectChar: " << (double)(GetTickCount() - start) / 1000.0 << endl;
@@ -168,5 +204,4 @@ int main() {
     DWORD end = GetTickCount();
 
     cout << "duration: " << (double)(end - start) / 1000.0 << endl;
-
 }

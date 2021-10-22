@@ -34,7 +34,7 @@ int getRandomNumber(int range, int addition=0) {
 }
 
 // matchStrの次の文字リストを取得し、[文字, 個数]を返す
-vector<Probability> getProbabilities(const vector<utf8>* file, const utf8* matchStr) {
+vector<Probability> getProbabilities(const vector<vector<utf8>>* file, const utf8* matchStr) {
     // matchStrの次の文字リスト
     vector<utf8> hitList;
     vector<Probability> probList; // 実際に数える用 [文字, 個数]
@@ -43,62 +43,39 @@ vector<Probability> getProbabilities(const vector<utf8>* file, const utf8* match
 
     // matchStr を見つけたかどうか
     bool hit = false;
-    bool hit2 = false;
 
-//    ifstream file(filePath);
-
-    DWORD start = GetTickCount();
-    for (utf8 u : *file) {
-//        DWORD startT = GetTickCount();
-        if (hit) { // matchStr が見つかった
-//            hitList.push_back(u); // matchStr の次の文字が push される
-            hit2 = false;
-            int i = 0;
-            for (auto prob : probList) { // 実際に数える用のリストを for で回す
-                if (prob.character == u) { // 数えるリストに既に登録されているかどうか
-                    probList[i].count++;
-                    hit2 = true;
-                    break;
-                }
-                i++;
-            }
-            if (!hit2) { // 数えるリストになかったらリストに push
-                probList.push_back({u, 1});
-            }
+//    DWORD start = GetTickCount();
+    for (vector<utf8> u : *file) {
+        if (u.empty()) break;
+        if (u[0] == *matchStr) {
+            hitList.push_back(u[1]);
             count++;
-            hit = false;
         }
-
-        if (*matchStr == u) {
-            hit = true;
-        }
-//        cout << (double)(GetTickCount() - startT) / 1000.0 << " " << u << " // ";
     }
-//    cout << "find str end: " << (double)(GetTickCount() - start) / 1000.0 << " " << count << endl;
 
-//    for (auto hitStr : hitList) { // matchStr の次の文字リストを for で回す
-//        hit = false;
-//        int i = 0;
-//        for (auto prob : probList) { // 実際に数える用のリストを for で回す
-//            if (prob.character == hitStr) { // 数えるリストに既に登録されているかどうか
-//                probList[i].count++;
-//                hit = true;
-//                break;
-//            }
-//            i++;
-//        }
-//        if (!hit) { // 数えるリストになかったらリストに push
-//            probList.push_back({hitStr, 1});
-//        }
-//    }
+    for (auto hitStr : hitList) { // matchStr の次の文字リストを for で回す
+        hit = false;
+        int i = 0;
+        for (auto prob : probList) { // 実際に数える用のリストを for で回す
+            if (prob.character == hitStr) { // 数えるリストに既に登録されているかどうか
+                probList[i].count++;
+                hit = true;
+                break;
+            }
+            i++;
+        }
+        if (!hit) { // 数えるリストになかったらリストに push
+            probList.push_back({hitStr, 1});
+        }
+    }
 
     int i = 0;
     for (Probability prob : probList) {
         probList[i++].prob = (double) prob.count / count * 100;
     }
 
-    qsort(&probList[0], probList.size(), sizeof(Probability), compare);
 
+    qsort(&probList[0], probList.size(), sizeof(Probability), compare);
     return probList;
 }
 
@@ -121,13 +98,14 @@ utf8 selectChar(const vector<Probability>& probList) {
 int main() {
     // 開始文字を聞く2
     string str;
+    //  cout << "開始文字: ";
     DWORD start = GetTickCount();
 
     utf8 startStr;
 
     // ファイル登録
     const string filePath = "2-gram.txt";
-    const ifstream file(filePath);
+    ifstream file(filePath);
 
     // ファイルがあるか確認
     if(!file){
@@ -135,9 +113,25 @@ int main() {
         return 1;
     }
 
-    vector<utf8> fileChars;
-    utf8 tmp;
-    while ((istream &) file >> tmp) fileChars.push_back(tmp);
+    vector<vector<utf8>> fileChars;
+    string strTmp;
+    while (getline(file, strTmp)) {
+//        cout << strTmp << endl;
+        vector<utf8> tmp;
+        utf8 u1;
+
+        int offset = 0;
+        const char* sp = strTmp.c_str();
+
+        while (true) {
+            u1 = utf8(sp + offset);
+            offset += u1.countBytes();
+            if (u1.is_null()) break;
+            tmp.push_back(u1);
+        }
+
+        fileChars.push_back(tmp);
+    }
 
     const utf8 endStr("。");
 
