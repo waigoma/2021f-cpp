@@ -5,6 +5,19 @@
 
 using namespace std;
 
+void deleteCRLF(string &targetStr)
+{
+    const char CR = '\r';
+    const char LF = '\n';
+    string destStr;
+    for (const auto c : targetStr) {
+        if (c != CR && c != LF) {
+            destStr += c;
+        }
+    }
+    targetStr = move(destStr);
+}
+
 int main(int argc, char* argv[]) {
     int n_gram = 2;
 
@@ -17,7 +30,7 @@ int main(int argc, char* argv[]) {
 
 //    cout << "文字列は？: ";
     while (getline(cin, tmp)) source += tmp;
-
+    deleteCRLF(source);
     // 文字数
     int utf8count = 0;
     int offset = 0;
@@ -36,6 +49,7 @@ int main(int argc, char* argv[]) {
     offset = 0;
 
     for (int i = 0; i < utf8count; i++) {
+        utf8 utmp(sp + offset);
         u2[i] = utf8(sp + offset);
         offset += u2[i].countBytes();
     }

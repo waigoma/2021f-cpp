@@ -80,7 +80,8 @@ vector<Probability> getProbabilities(const vector<vector<utf8>>* file, const utf
 }
 
 utf8 selectChar(const vector<Probability>& probList) {
-    utf8 character;
+    utf8 character(0,0,0,0,0,0);
+    if (probList.empty()) return character;
     double rdm = getRandomNumber(10001) / 100.0;
 //    cout << rdm << endl;
     while (rdm > 0) {
@@ -168,6 +169,7 @@ int main() {
         startStr = lines[idx];
 
         output << "無能: " << startStr;
+        bool impossible = false;
         DWORD startT = GetTickCount();
         while (!(startStr == endStr)) {
 //            cout << "probList a: " << (double)(GetTickCount() - start) / 1000.0 << endl;
@@ -177,7 +179,12 @@ int main() {
             startStr = selectChar(probList);
 //            cout << "selectChar: " << (double)(GetTickCount() - start) / 1000.0 << endl;
 //        cout << startStr << endl;
-            output << startStr;
+            if (startStr.is_null()) {
+                output << " <- その文字は、私の辞書にありません。なので、文章を生成不可能です。";
+                impossible = true;
+                break;
+            }
+            else output << startStr;
         }
         startStr = utf8(str.c_str());
         cout << "duration: " << (double)(GetTickCount() - startT) / 1000.0 << endl;

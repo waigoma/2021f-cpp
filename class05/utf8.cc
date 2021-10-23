@@ -96,14 +96,13 @@ bool utf8::operator>=(const utf8& a) const {
     return thisInt >= aInt;
 }
 
-bool utf8::operator==(const utf8& a) const {
-    std::stringstream thisStream; thisStream << std::hex;
-    std::stringstream aStream; aStream << std::hex;
-    int thisInt;
-    int aInt;
-    for (int i = 0; i < this->countBytes(); i++) thisStream << (int) this->byte[i];
-    for (int i = 0; i < a.countBytes(); i++) aStream << (int) a.byte[i];
-    thisStream >> thisInt;
-    aStream >> aInt;
-    return thisInt == aInt;
+bool utf8::operator==(const utf8 &a) const{
+    for (int i = 0; i < countBytes(); i++){
+        if (byte[i] == a.byte[i]){
+            continue;
+        } else {
+            return false;
+        }
+    }
+    return true;
 }

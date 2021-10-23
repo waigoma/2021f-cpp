@@ -122,7 +122,8 @@ vector<Probability> getProbabilities(const vector<vector<utf8>>* file, const utf
 }
 
 utf8 selectChar(const vector<Probability>& probList) {
-    utf8 character;
+    utf8 character(0,0,0,0,0,0);
+    if (probList.empty()) return character;
     double rdm = getRandomNumber(10001) / 100.0;
 //    cout << rdm << endl;
     while (rdm > 0) {
@@ -179,6 +180,7 @@ int main() {
     const utf8 endStr("。");
 
     stringstream output;
+    bool impossible = false;
 
     for (int i = 0; i < 10; i++) {
         output << startStr;
@@ -187,18 +189,24 @@ int main() {
 //            DWORD start2 = GetTickCount();
 //            cout << "probList a: " << (double)(GetTickCount() - start) / 1000.0 << endl;
             vector<Probability> probList = getProbabilities(&fileChars, &startStr);
-//            cout << "probList b: " << (double)(GetTickCount() - start2) / 1000.0 << endl;
+//            cout << "probList b: " << (double)(GetTickCount() - startT) / 1000.0 << endl;
 
             startStr = selectChar(probList);
 //            cout << "selectChar: " << (double)(GetTickCount() - start) / 1000.0 << endl;
-//        cout << startStr << endl;
-            output << startStr;
+//            cout << "は？:" << startStr << endl;
+            if (startStr.is_null()) {
+                output << " <- その文字は、私の辞書にありません。なので、文章を生成不可能です。";
+                impossible = true;
+                break;
+            }
+            else output << startStr;
         }
         startStr = utf8(str.c_str());
         cout << "duration: " << (double)(GetTickCount() - startT) / 1000.0 << endl;
         cout << output.str() << endl << endl;
         output.str("");
         output.clear(stringstream::goodbit);
+        if (impossible) break;
     }
 
     DWORD end = GetTickCount();
