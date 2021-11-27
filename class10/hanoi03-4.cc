@@ -1,4 +1,4 @@
-#include "hanoi03-3.h"
+#include "hanoi03-4.h"
 #include <iomanip>
 
 using namespace std;
@@ -110,10 +110,14 @@ void Pole::show_art(int n) const {
         return;
     }
 
-    auto it = std::next(plates.begin(), n);
-    fill = (2 * it->getSize() - 1) < 0 ? 0 : (2 * it->getSize() - 1);
+    fill = (2 * plates[n].getSize() - 1) < 0 ? 0 : (2 * plates[n].getSize() - 1);
     padding = (2 * maxSize + 1 - fill) / 2;
-    cout << right << setfill(' ') << setw(padding) << "" << setfill('x') << setw(fill) << "" << setfill(' ') << setw(padding) << "";
+    string fillStr = "\x1b[7m";
+    for (int i = 0; i < fill; i++) {
+        fillStr += " ";
+    }
+    fillStr += "\x1b[m";
+    cout << right << setfill(' ') << setw(padding) << "" << fillStr << "" << setfill(' ') << setw(padding) << "";
 }
 // ---
 

@@ -2,7 +2,7 @@
 #define HANOI03_4_H
 
 #include <iostream>
-#include <list>
+#include <vector>
 #include <stdexcept>
 
 
@@ -37,7 +37,7 @@ protected:
     std::string name;
     int size;
     const int maxSize;
-    std::list<Plate> plates;
+    std::vector<Plate> plates;
     POLE_ID id;
 
 public:
@@ -62,7 +62,7 @@ inline std::ostream& operator<<(std::ostream& s, const Pole& p) {
 class Board {
 protected:
     int maxSize;
-    std::list<Pole> poles;
+    std::vector<Pole> poles;
 
 public:
     Board(int n): maxSize(n) {};
