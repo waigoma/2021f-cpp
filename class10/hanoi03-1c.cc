@@ -1,4 +1,4 @@
-#include "hanoi03-1n.h"
+#include "hanoi03-1c.h"
 #include <iomanip>
 
 using namespace std;
@@ -103,6 +103,19 @@ void Pole::print() const {
     }
     std::cout << std::endl;
 }
+
+void Pole::show_art(int n) const {
+    int fill = 0;
+    int padding = (2 * maxSize + 1 - fill) / 2;
+    if (n >= size) {
+        cout << right << setfill(' ') << setw(padding) << "" << setfill('|') << setw(1) << "" << setfill(' ') << setw(padding) << "";
+        return;
+    }
+    
+    fill = (2 * plates[n].getSize() - 1) < 0 ? 0 : (2 * plates[n].getSize() - 1);
+    padding = (2 * maxSize + 1 - fill) / 2;
+    cout << right << setfill(' ') << setw(padding) << "" << setfill('x') << setw(fill) << "" << setfill(' ') << setw(padding) << "";
+}
 // ---
 
 // Board (5)
@@ -166,7 +179,15 @@ void Board::show_n_str() {
 }
 
 void Board::show_aa() {
-
+    cout << right << setfill(' ') << setw(maxSize + 1) << "|" << setw(2 * maxSize + 1) << "|" << setw(2 * maxSize + 1) << "|" << endl;
+    for (int i = maxSize - 1; i >= 0; i--) {
+        for (const auto& pole : poles) {
+            pole.show_art(i);
+        }
+        cout << endl;
+    }
+    cout << right << setfill('-') << setw(maxSize + 1)  << "+" << setfill('-') << setw(2 * maxSize + 1) << "+" << setfill('-') << setw(2 * maxSize + 1) << "+" << setfill('-') << setw(maxSize + 1) << "\n";
+    cout << right << setfill(' ') << setw(maxSize + 1)  << "A" << setw(2 * maxSize + 1) << "B" << setw(2 * maxSize + 1) << "C" << setw(maxSize + 1) << "\n";
 }
 
 void Board::printHelp() {
@@ -183,14 +204,14 @@ int main() {
     boardc.initialize();
 
     string x, y;
-    boardc.show_n_str();
+    boardc.show_aa();
 
     while (true) {
         cout << "hanoi> "; cin >> x;
         if (x == "Q" || x == "q") break;
         if (x == "R" || x == "r") {
             boardc.initialize();
-            boardc.show_n_str();
+            boardc.show_aa();
             continue;
         }
         if (x == "H" || x == "h") {
@@ -200,7 +221,7 @@ int main() {
 
         cin >> y;
         boardc.move(x, y);
-        boardc.show_n_str();
+        boardc.show_aa();
         if (step++ >= 99) break;
     }
 }

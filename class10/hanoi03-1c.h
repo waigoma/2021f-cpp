@@ -1,5 +1,5 @@
-#ifndef HANOI03_1N_H
-#define HANOI03_1N_H
+#ifndef HANOI03_1C_H
+#define HANOI03_1C_H
 
 #include <iostream>
 #include <vector>
@@ -52,6 +52,7 @@ public:
     int getSize() const;
     POLE_ID getId() const;
     void print() const;
+    void show_art(int) const;
 };
 inline std::ostream& operator<<(std::ostream& s, const Pole& p) {
     return s << p.getName() << "(" << p.getSize() << ")";
@@ -77,4 +78,4 @@ public:
 //}
 
 
-#endif //HANOI03_1N_H
+#endif //HANOI03_1C_H
