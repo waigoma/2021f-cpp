@@ -109,8 +109,9 @@ void Pole::show_art(int n) const {
         cout << right << setfill(' ') << setw(padding) << "" << setfill('|') << setw(1) << "" << setfill(' ') << setw(padding) << "";
         return;
     }
-    
-    fill = (2 * plates[n].getSize() - 1) < 0 ? 0 : (2 * plates[n].getSize() - 1);
+
+    auto it = std::next(plates.begin(), n);
+    fill = (2 * it->getSize() - 1) < 0 ? 0 : (2 * it->getSize() - 1);
     padding = (2 * maxSize + 1 - fill) / 2;
     cout << right << setfill(' ') << setw(padding) << "" << setfill('x') << setw(fill) << "" << setfill(' ') << setw(padding) << "";
 }
