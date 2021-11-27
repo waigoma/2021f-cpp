@@ -112,15 +112,15 @@ void Pole::print() const {
 void Board::initialize() {
     poles.clear();
 
-    Pole a("A", 5);
+    Pole a("A", maxSize);
     a.init_stack();
     poles.push_back(a);
 
-    Pole b("B", 5);
+    Pole b("B", maxSize);
     b.clear_stack();
     poles.push_back(b);
 
-    Pole c("C", 5);
+    Pole c("C", maxSize);
     c.clear_stack();
     poles.push_back(c);
 }
