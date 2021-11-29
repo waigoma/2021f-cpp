@@ -19,10 +19,9 @@ WEXECS	=	hanoi04-1.exe hanoi04-2.exe hanoi04-3.exe
 
 OBJS	=	hanoi04-1.o hanoi04-2.o hanoi04-3.o Plate.o Pole.o Board.o
 
-ZIP_SRC =	hanoi04-1.cc hanoi04-2.cc hanoi04-3.cc \
-		Plate.h Plate.cc Pole.h Pole.cc Board.h Board.cc makefile
+WORKDIR	=	class11
 
-ARCHIVE =	class11.zip
+ARCHIVE =	$(WORKDIR).zip
 
 default:
 	@echo make XXX となるようにターゲットを指定してください
@@ -30,14 +29,15 @@ default:
 all:	$(TARGET)
 
 zip:
-	-$(ZIPCMD) $(ARCHIVE) $(ZIP_SRC)
+	-(cd ..; $(ZIPCMD) $(ARCHIVE) $(WORKDIR)/*.cc $(WORKDIR)/*.h $(WORKDIR)/makefile)
+
 
 clean:	
 	-$(RM) $(TARGET) $(WEXECS) $(OBJS) $(ARCHIVE)
 
-05-hanoi01:	05-hanoi01.o
-05-hanoi02:	05-hanoi02.o Plate.o Pole.o Board.o
-05-hanoi03:	05-hanoi03.o Plate.o Pole.o Board.o
+hanoi04-1:	hanoi04-1.o
+hanoi04-2:	hanoi04-2.o Plate.o Pole.o Board.o
+hanoi04-3:	hanoi04-3.o Plate.o Pole.o Board.o
 
 ##
 ##      extra rules for cygwin
