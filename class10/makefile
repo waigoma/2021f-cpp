@@ -27,7 +27,7 @@ ZIP_SRC =	hanoi03-1n.h hanoi03-1n.cc hanoi03-1c.h hanoi03-1c.cc \
 		Plate.h Plate.cc Board.h Board.cc Pole.h Pole.cc \
 		hanoi03-3.h hanoi03-3.cc hanoi03-4.h hanoi03-4.cc
 
-ARCHIVE =	class04.zip
+ARCHIVE =	class10.zip
 
 default:
 	@echo make XXX となるようにターゲットを指定してください
