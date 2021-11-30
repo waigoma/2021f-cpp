@@ -26,22 +26,4 @@ int main() {
     endwin();
     return 0;
 
-//    while (true) {
-//        cout << "hanoi> "; cin >> x;
-//        if (x == "Q" || x == "q") break;
-//        if (x == "R" || x == "r") {
-//            boardc.initialize();
-//            boardc.show_aa();
-//            continue;
-//        }
-//        if (x == "H" || x == "h") {
-//            boardc.printHelp();
-//            continue;
-//        }
-//
-//        cin >> y;
-//        boardc.move(x, y);
-//        boardc.show_aa();
-//        if (step++ >= 99) break;
-//    }
 }
