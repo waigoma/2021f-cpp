@@ -4,6 +4,7 @@
 #include <vector>
 #include <stdexcept>
 #include <iomanip>
+#include <sstream>
 #include "Plate.h"
 
 enum POLE_ID {
@@ -34,9 +35,9 @@ public:
     void print() const;
     void show_art(int) const;
 };
-inline std::ostream& operator<<(std::ostream& s, const Pole& p) {
-    return s << p.getName() << "(" << p.getSize() << ")";
-}
+//inline std::ostream& operator<<(std::ostream& s, const Pole& p) {
+//    return s << p.getName() << "(" << p.getSize() << ")";
+//}
 
 
 #endif //POLE_H

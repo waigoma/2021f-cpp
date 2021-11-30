@@ -62,19 +62,32 @@ void Board::show_n_str() {
 }
 
 void Board::show_aa() {
-    cout << right << setfill(' ') << setw(maxSize + 1) << "|" << setw(2 * maxSize + 1) << "|" << setw(2 * maxSize + 1) << "|" << endl;
+    stringstream ss;
+    stringstream ss1;
+    stringstream ss2;
+    ss << right << setfill(' ') << setw(maxSize + 1) << "|" << setw(2 * maxSize + 1) << "|" << setw(2 * maxSize + 1) << "|" << endl;
+    addstr(ss.str().c_str());
     for (int i = maxSize - 1; i >= 0; i--) {
         for (const auto& pole : poles) {
             pole.show_art(i);
         }
-        cout << endl;
+        addstr("\n");
+//        cout << endl;
     }
-    cout << right << setfill('-') << setw(maxSize + 1)  << "+" << setfill('-') << setw(2 * maxSize + 1) << "+" << setfill('-') << setw(2 * maxSize + 1) << "+" << setfill('-') << setw(maxSize + 1) << "\n";
-    cout << right << setfill(' ') << setw(maxSize + 1)  << "A" << setw(2 * maxSize + 1) << "B" << setw(2 * maxSize + 1) << "C" << setw(maxSize + 1) << "\n";
+    ss1 << right << setfill('-') << setw(maxSize + 1)  << "+" << setfill('-') << setw(2 * maxSize + 1) << "+" << setfill('-') << setw(2 * maxSize + 1) << "+" << setfill('-') << setw(maxSize + 1) << "\n";
+    ss2 << right << setfill(' ') << setw(maxSize + 1)  << "A" << setw(2 * maxSize + 1) << "B" << setw(2 * maxSize + 1) << "C" << setw(maxSize + 1) << "\n";
+    addstr(ss1.str().c_str());
+    addstr(ss2.str().c_str());
 }
 
 void Board::printHelp() {
-    cout  << left << setw(5)<< "X Y" << ": move from pole X to Y" << endl;
-    cout  << left << setw(5)<< "H" << ": show this help" << endl;
-    cout  << left << setw(5)<< "Q" << ": exit game" << endl;
+    stringstream ss;
+    stringstream ss1;
+    stringstream ss2;
+    ss  << left << setw(5)<< "X Y" << ": move from pole X to Y" << endl;
+    ss1  << left << setw(5)<< "H" << ": show this help" << endl;
+    ss2  << left << setw(5)<< "Q" << ": exit game" << endl;
+    addstr(ss.str().c_str());
+    addstr(ss1.str().c_str());
+    addstr(ss2.str().c_str());
 }
