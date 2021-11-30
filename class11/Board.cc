@@ -84,10 +84,16 @@ void Board::printHelp() {
     stringstream ss;
     stringstream ss1;
     stringstream ss2;
+    stringstream ss3;
+    stringstream ss4;
     ss  << left << setw(5)<< "X Y" << ": move from pole X to Y" << endl;
     ss1  << left << setw(5)<< "H" << ": show this help" << endl;
     ss2  << left << setw(5)<< "Q" << ": exit game" << endl;
+    ss3  << left << setw(5)<< "←" << ": Undo" << endl;
+    ss4  << left << setw(5)<< "→" << ": Redo" << endl;
     addstr(ss.str().c_str());
     addstr(ss1.str().c_str());
     addstr(ss2.str().c_str());
+    addstr(ss3.str().c_str());
+    addstr(ss4.str().c_str());
 }
