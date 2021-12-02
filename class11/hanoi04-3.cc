@@ -15,7 +15,7 @@ int main() {
     int diskNum;
     int step = 1;
 
-    vector<vector<string>> boards;
+    vector<vector<string>> boards(100, vector<string>(100, "-1"));
     int currentBoard = 0;
 
     addstr("円盤の枚数> ");
@@ -32,11 +32,14 @@ int main() {
     bool isMove = false;
 
     while (true) {
+        move(0, 0);
+        refresh();
+        clear();
         boardc.show_aa();
         addstr("hanoi (h → HELP)> ");
         key = getch();
         addstr("\n");
-        erase();
+//        clear();
         if (key == KEY_LEFT) {
             if (currentBoard > 0) {
                 currentBoard--;
@@ -49,6 +52,10 @@ int main() {
         } else if (key == KEY_RIGHT) {
             if (!boards.empty()) {
                 if (currentBoard < boards.size() - 1) {
+                    if (boards[currentBoard][0] == "-1") {
+                        addstr("これ以上後ろに進めません。\n");
+                        continue;
+                    }
                     boardc.move(boards[currentBoard][0], boards[currentBoard][1]);
                     currentBoard++;
                     addstr("1つ後ろに進みます。\n");
@@ -112,8 +119,7 @@ int main() {
 
         if (step++ >= 99) break;
         if (isMove) {
-            boards.push_back(vector<string>{x, y});
-            currentBoard++;
+            boards[currentBoard++] = vector<string>{x, y};
         }
     }
     addstr("終了します。\n何かキーを押して続行...");
