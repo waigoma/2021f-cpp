@@ -34,37 +34,37 @@ int main() {
     while (true) {
         move(0, 0);
         refresh();
-        clear();
         boardc.show_aa();
         addstr("hanoi (h → HELP)> ");
         key = getch();
-        addstr("\n");
-//        clear();
+        clear();
+        boardc.show_aa();
         if (key == KEY_LEFT) {
             if (currentBoard > 0) {
                 currentBoard--;
                 boardc.move(boards[currentBoard][1], boards[currentBoard][0]);
-                addstr("1つ前に戻ります。\n");
+                addstr("\n1つ前に戻ります。\n");
                 continue;
             }
-            addstr("これ以上前に戻れません。\n");
+            addstr("\nこれ以上前に戻れません。\n");
             continue;
         } else if (key == KEY_RIGHT) {
             if (!boards.empty()) {
                 if (currentBoard < boards.size() - 1) {
                     if (boards[currentBoard][0] == "-1") {
-                        addstr("これ以上後ろに進めません。\n");
+                        addstr("\nこれ以上後ろに進めません。\n");
                         continue;
                     }
                     boardc.move(boards[currentBoard][0], boards[currentBoard][1]);
                     currentBoard++;
-                    addstr("1つ後ろに進みます。\n");
+                    addstr("\n1つ後ろに進みます。\n");
                     continue;
                 }
             }
-            addstr("これ以上後ろに進めません。\n");
+            addstr("\nこれ以上後ろに進めません。\n");
             continue;
         } else if(key == 'h') {
+            addstr("\n");
             boardc.printHelp();
             continue;
         } else if (key == 'q') {
@@ -72,6 +72,10 @@ int main() {
         } else if (key == 'r') {
             boardc.initialize();
             boardc.show_aa();
+            currentBoard = 0;
+            vector<vector<string>> tmp(100, vector<string>(100, "-1"));
+            boards = tmp;
+            clear();
             continue;
         } else if (key == 'a') {
             addstr("From A To > ");
@@ -81,7 +85,7 @@ int main() {
             if (key == 'b') y = "B";
             else if (key == 'c') y = "C";
             else {
-                addstr("無効な入力です。\n");
+                addstr("\n無効な入力です。\n");
                 continue;
             }
             boardc.move(x, y);
@@ -94,7 +98,7 @@ int main() {
             if (key == 'a') y = "A";
             else if (key == 'c') y = "C";
             else {
-                addstr("無効な入力です。\n");
+                addstr("\n無効な入力です。\n");
                 continue;
             }
             boardc.move(x, y);
@@ -107,13 +111,13 @@ int main() {
             if (key == 'a') y = "A";
             else if (key == 'b') y = "B";
             else {
-                addstr("無効な入力です。\n");
+                addstr("\n無効な入力です。\n");
                 continue;
             }
             boardc.move(x, y);
             isMove = true;
         } else {
-            addstr("無効な入力です。\n");
+            addstr("\n無効な入力です。\n");
             continue;
         }
 
