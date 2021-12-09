@@ -33,6 +33,8 @@ public:
     POLE_ID getId() const;
     void print() const;
     void show_art(int) const;
+
+    void cursesShow_art(int n) const;
 };
 inline std::ostream& operator<<(std::ostream& s, const Pole& p) {
     return s << p.getName() << "(" << p.getSize() << ")";

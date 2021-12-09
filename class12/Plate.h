@@ -2,6 +2,7 @@
 #define PLATE_H
 
 #include <iostream>
+#include <ncurses.h>
 
 class Plate {
 protected:

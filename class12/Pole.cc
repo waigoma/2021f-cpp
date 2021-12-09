@@ -105,3 +105,32 @@ void Pole::show_art(int n) const {
     padding = (2 * maxSize + 1 - fill) / 2;
     cout << right << setfill(' ') << setw(padding) << "" << setfill('x') << setw(fill) << "" << setfill(' ') << setw(padding) << "";
 }
+
+void Pole::cursesShow_art(int n) const {
+    int fill = 0;
+    int padding = (2 * maxSize + 1 - fill) / 2;
+    if (n >= size) {
+        stringstream ss;
+        ss << right << setfill(' ') << setw(padding) << "" << setfill('|') << setw(1) << "" << setfill(' ') << setw(padding) << "";
+        addstr(ss.str().c_str());
+//        cout << str;
+        return;
+    }
+
+    fill = (2 * plates[n].getSize() - 1) < 0 ? 0 : (2 * plates[n].getSize() - 1);
+    padding = (2 * maxSize + 1 - fill) / 2;
+    string str;
+    string str1;
+    string str2;
+    stringstream ss;
+    stringstream ss1;
+    stringstream ss2;
+    ss << right << setfill(' ') << setw(padding) << "";
+    ss1 << setfill(' ') << setw(fill) << "";
+    ss2 << setfill(' ') << setw(padding) << "";
+    addstr(ss.str().c_str());
+    attron(A_REVERSE);
+    addstr(ss1.str().c_str());
+    attroff(A_REVERSE);
+    addstr(ss2.str().c_str());
+}

@@ -104,8 +104,7 @@ void Board::animation() {
     system("clear");
     show_aa();
 
-    vector<Pole> polesCopy;
-    copy(poles.begin(), poles.end(), back_inserter(polesCopy));
+    poleBackup();
 
     for (const auto& s : solutions) {
         Sleep(1000);
@@ -114,12 +113,66 @@ void Board::animation() {
         show_aa();
     }
 
-    poles.clear();
-    copy(polesCopy.begin(), polesCopy.end(), back_inserter(poles));
+    poleRestore();
 }
 
 void Board::printHelp() {
     cout  << left << setw(5)<< "X Y" << ": move from pole X to Y" << endl;
     cout  << left << setw(5)<< "H" << ": show this help" << endl;
     cout  << left << setw(5)<< "Q" << ": exit game" << endl;
+}
+
+void Board::cursesShow_aa() {
+    stringstream ss;
+    stringstream ss1;
+    stringstream ss2;
+    ss << right << setfill(' ') << setw(maxSize + 1) << "|" << setw(2 * maxSize + 1) << "|" << setw(2 * maxSize + 1) << "|" << endl;
+    addstr(ss.str().c_str());
+    for (int i = maxSize - 1; i >= 0; i--) {
+        for (const auto& pole : poles) {
+            pole.cursesShow_art(i);
+        }
+        addstr("\n");
+//        cout << endl;
+    }
+    ss1 << right << setfill('-') << setw(maxSize + 1)  << "+" << setfill('-') << setw(2 * maxSize + 1) << "+" << setfill('-') << setw(2 * maxSize + 1) << "+" << setfill('-') << setw(maxSize + 1) << "\n";
+    ss2 << right << setfill(' ') << setw(maxSize + 1)  << "A" << setw(2 * maxSize + 1) << "B" << setw(2 * maxSize + 1) << "C" << setw(maxSize + 1) << "\n";
+    addstr(ss1.str().c_str());
+    addstr(ss2.str().c_str());
+}
+
+void Board::cursesAnimation(int n) {
+    move(solutions[n][0], solutions[n][1]);
+    cursesShow_aa();
+}
+
+void Board::cursesPrintHelp() {
+    stringstream ss;
+    stringstream ss1;
+    stringstream ss2;
+    stringstream ss3;
+    stringstream ss4;
+    ss  << left << setw(5)<< "X Y" << ": move from pole X to Y" << endl;
+    ss1  << left << setw(5)<< "H" << ": show this help" << endl;
+    ss2  << left << setw(5)<< "Q" << ": exit game" << endl;
+    ss3  << left << setw(5)<< "←" << ": Undo" << endl;
+    ss4  << left << setw(5)<< "→" << ": Redo" << endl;
+    addstr(ss.str().c_str());
+    addstr(ss1.str().c_str());
+    addstr(ss2.str().c_str());
+    addstr(ss3.str().c_str());
+    addstr(ss4.str().c_str());
+}
+
+void Board::poleBackup() {
+    copy(poles.begin(), poles.end(), back_inserter(polesCopy));
+}
+
+void Board::poleRestore() {
+    poles.clear();
+    copy(polesCopy.begin(), polesCopy.end(), back_inserter(poles));
+}
+
+std::vector<std::vector<POLE_ID>> Board::getSolutions() {
+    return solutions;
 }

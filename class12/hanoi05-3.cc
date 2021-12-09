@@ -25,20 +25,39 @@ int main() {
 
     Board boardc(diskNum);
     boardc.initialize();
+    boardc.poleBackup();
 
     string x, y;
 
     int key;
     bool isMove = false;
 
+    int animInt = 0;
+    bool isAnimStart = false;
+
     while (true) {
         move(0, 0);
         refresh();
-        boardc.show_aa();
+        if (isAnimStart) {
+            Sleep(1000);
+            clear();
+            boardc.cursesAnimation(animInt++);
+            if (animInt == boardc.getSolutions().size()) {
+                isAnimStart = false;
+                animInt = 0;
+                addstr("Animation Finished.\n何かキーを押して戻る...\n");
+                getch();
+                clear();
+                boardc.poleRestore();
+                continue;
+            }
+            continue;
+        }
+        boardc.cursesShow_aa();
         addstr("hanoi (h → HELP)> ");
         key = getch();
         clear();
-        boardc.show_aa();
+        boardc.cursesShow_aa();
         if (key == KEY_LEFT) {
             if (currentBoard > 0) {
                 currentBoard--;
@@ -65,13 +84,13 @@ int main() {
             continue;
         } else if(key == 'h') {
             addstr("\n");
-            boardc.printHelp();
+            boardc.cursesPrintHelp();
             continue;
         } else if (key == 'q') {
             break;
         } else if (key == 'r') {
             boardc.initialize();
-            boardc.show_aa();
+            boardc.cursesShow_aa();
             currentBoard = 0;
             vector<vector<string>> tmp(100, vector<string>(100, "-1"));
             boards = tmp;
@@ -116,6 +135,11 @@ int main() {
             }
             boardc.move(x, y);
             isMove = true;
+        } else if (key == 'e') {
+            boardc.solve();
+            isAnimStart = true;
+            animInt = 0;
+            continue;
         } else {
             addstr("\n無効な入力です。\n");
             continue;
