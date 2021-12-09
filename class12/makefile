@@ -2,7 +2,7 @@
 #	makefile
 #
 
-CXX		=	g++
+CXX		=	g++ -std=c++14
 CXXFLAGS	=	$(CXXINCLUDE) $(DEBUG)
 CXXINCLUDE	=
 LINK.o		=	$(LINK.cc)
