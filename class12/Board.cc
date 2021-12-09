@@ -55,6 +55,28 @@ void Board::move(POLE_ID fromId, POLE_ID toId) {
     else throw std::out_of_range("Pole not found");
 }
 
+void Board::solve(int n, POLE_ID from, POLE_ID to, POLE_ID tmp) {
+    if (n == 1) {
+        solutions.push_back(poleNames[from] + " -> " + poleNames[to]);
+//        std::cout << "Move disk 1 from " << from << " to " << to << std::endl;
+        return;
+    }
+    solve(n - 1, from, tmp, to);
+    solutions.push_back(poleNames[from] + " -> " + poleNames[to]);
+//    std::cout << "Move disk " << n << " from " << from << " to " << to << std::endl;
+    solve(n - 1, tmp, to, from);
+}
+
+void Board::solve() {
+//    vector<Pole> tmpPoles = poles;
+    solutions.clear();
+    solve(maxSize, POLE_A, POLE_C, POLE_B);
+    for (const auto& s : solutions) {
+        std::cout << s << std::endl;
+    }
+//    poles = tmpPoles;
+}
+
 void Board::show_n_str() {
     for (auto& p : poles) {
         p.print();

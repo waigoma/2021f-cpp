@@ -24,6 +24,10 @@ int main() {
             boardc.printHelp();
             continue;
         }
+        if (x == "W" || x == "w") {
+            boardc.solve();
+            continue;
+        }
 
         cin >> y;
         boardc.move(x, y);
