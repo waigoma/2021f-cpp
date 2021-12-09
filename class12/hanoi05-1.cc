@@ -26,6 +26,7 @@ int main() {
         }
         if (x == "W" || x == "w") {
             boardc.solve();
+            boardc.printSolutions();
             continue;
         }
 

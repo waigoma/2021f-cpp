@@ -2,6 +2,9 @@
 
 using namespace std;
 
+const int WIDTH = 80;
+const int HEIGHT = 24;
+
 int main() {
     int diskSize;
     int step = 0;
@@ -24,8 +27,10 @@ int main() {
             boardc.printHelp();
             continue;
         }
-        if (x == "W" || x == "w") {
+        if (x == "E" || x == "e") {
             boardc.solve();
+            boardc.animation();
+            cout << "Animation finished" << endl;
             continue;
         }
 
