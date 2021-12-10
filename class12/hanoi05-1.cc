@@ -24,7 +24,7 @@ int main() {
             boardc.printHelp();
             continue;
         }
-        if (x == "W" || x == "w") {
+        if (x == "E" || x == "e") {
             boardc.solve();
             boardc.printSolutions();
             continue;
