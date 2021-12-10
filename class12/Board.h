@@ -32,6 +32,10 @@ public:
     void cursesAnimation(int);
     std::vector<std::vector<POLE_ID>> getSolutions();
 
+    bool solveCurses(POLE_ID, POLE_ID, int);
+    void solveCurses();
+    bool moveBool(POLE_ID, POLE_ID);
+
     void poleBackup();
     void poleRestore();
 };

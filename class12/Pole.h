@@ -9,7 +9,8 @@
 enum POLE_ID {
     POLE_A,
     POLE_B,
-    POLE_C
+    POLE_C,
+    POLE_NULL
 };
 
 class Pole {

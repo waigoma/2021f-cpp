@@ -165,6 +165,7 @@ void Board::cursesPrintHelp() {
 }
 
 void Board::poleBackup() {
+    polesCopy.clear();
     copy(poles.begin(), poles.end(), back_inserter(polesCopy));
 }
 
@@ -175,4 +176,66 @@ void Board::poleRestore() {
 
 std::vector<std::vector<POLE_ID>> Board::getSolutions() {
     return solutions;
+}
+
+void Board::solveCurses() {
+    solutions.clear();
+    poleBackup();
+
+    solveCurses(POLE_NULL, POLE_NULL, 100);
+
+    poleRestore();
+
+    vector<vector<POLE_ID>> tmp;
+    solutions.pop_back();
+    for (vector<POLE_ID> s : solutions) {
+        tmp.push_back(solutions.back());
+        solutions.pop_back();
+    }
+
+    solutions.clear();
+    copy(tmp.begin(), tmp.end(), back_inserter(solutions));
+}
+
+bool Board::solveCurses(POLE_ID from, POLE_ID to, int last) {
+    POLE_ID from_id = POLE_NULL;
+    POLE_ID to_id = POLE_NULL;
+    if (poles[POLE_C].getSize() == maxSize) {
+        solutions.push_back({from, to});
+        return true;
+    }
+    vector<vector<POLE_ID>> nextMove({{POLE_A, POLE_C}, {POLE_A, POLE_B}, {POLE_B, POLE_C}, {POLE_B, POLE_A}, {POLE_C, POLE_B}, {POLE_C, POLE_A}});
+    for (vector<POLE_ID> next : nextMove) {
+        if (from != POLE_NULL && to != POLE_NULL) {
+            if (next[0] == to && next[1] == from) continue;
+        }
+        if (poles[next[0]].getSize() != 0) {
+            if (last == poles[next[0]].top().getSize()) {
+                from_id = next[0];
+                to_id = next[1];
+                continue;
+            }
+        }
+        if (!moveBool(next[0], next[1])) continue;
+//        solveCurses(next[0], next[1]);
+        if (solveCurses(next[0], next[1], poles[next[1]].top().getSize())) {
+            solutions.push_back({from, to});
+            if (poles[POLE_C].getSize() == maxSize) return true;
+        }
+    }
+    moveBool(from_id, to_id);
+    if (solveCurses(from_id, to_id, 100)) {
+        solutions.push_back({from, to});
+        if (poles[POLE_C].getSize() == maxSize) return true;
+    }
+    return false;
+}
+
+bool Board::moveBool(POLE_ID from, POLE_ID to) {
+    try {
+        move(from, to);
+    } catch (const exception& e) {
+        return false;
+    }
+    return true;
 }
